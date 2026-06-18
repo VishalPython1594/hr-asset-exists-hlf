@@ -1,0 +1,27 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '3.7'
+
+networks:
+  test:
+    name: fabric_test
+
+services:
+  ca_org3:
+    image: bitnami/hyperledger-bitnami/hyperledger-fabric-ca:latest:latest:latest
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - FABRIC_CA_HOME=/etc/bitnami/hyperledger-bitnami/hyperledger-fabric-ca:latest:latest-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-org3
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_PORT=11054
+    ports:
+      - "11054:11054"
+    command: sh -c 'bitnami/hyperledger-fabric-ca:latest-server start -b admin:adminpw -d'
+    volumes:
+      - ../bitnami/hyperledger-fabric-ca:latest/org3:/etc/bitnami/hyperledger-bitnami/hyperledger-fabric-ca:latest:latest-server
+    container_name: ca_org3
